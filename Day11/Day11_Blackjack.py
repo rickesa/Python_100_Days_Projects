@@ -1,7 +1,6 @@
 from Day11_Blackjack_Art import *
 import random
 # ************ Our Blackjack House Rules ************
-
 # The deck is unlimited in size.
 # There are no jokers.
 # The Jack/Queen/King all count as 10.
@@ -11,7 +10,6 @@ import random
 # The cards in the list have equal probability of being drawn.
 # Cards are not removed from the deck as they are drawn.
 # The computer is the dealer.
-
 # Use the following list as the deck of cards:
 cards = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"]
 card_art_dict = {"Ace": ace_art, 2: two_art, 3: three_art, 4: four_art, 5: five_art, 6: six_art, 7: seven_art, 8: eight_art, 9: nine_art, 10: ten_art, "Jack": jack_art, "Queen": queen_art, "King": king_art}
@@ -24,6 +22,8 @@ user = "User"
 dealer = "Dealer"
 stop = False
 bust_flag = False
+
+
 def ace(hand_sum):
     """If an ace is pulled, assign its value as 11, or assign 1 if the hand sum + 11 would bust"""
     # print(f"Pre-ace hand_sum = {hand_sum}")
@@ -34,8 +34,13 @@ def ace(hand_sum):
     else:
         ace_value += 11
         return ace_value
+
+
 face_values_dict = {"Ace": ace, "Jack": 10, "Queen": 10, "King": 10}
+
+
 def deal_cards():
+    """Deals 2 cards to both the user and the dealer"""
     print("Dealing cards...")
     card1 = random.choice(cards)
     user_cards.append(card1)
@@ -48,7 +53,10 @@ def deal_cards():
     dealer_cards.append(card1)
     dealer_cards.append(card2)
     print(f"User's hand: {user_cards}")
+
+
 def card_math(card_list):
+    """Calculates the value of the current hand"""
     hand_sum = 0
     for card in card_list:
         if card in face_values_dict:
@@ -60,7 +68,10 @@ def card_math(card_list):
             card_value = card
         hand_sum += card_value
     return hand_sum
+
+
 def check_bust(hand_sum):
+    """checks whether a card being added to the hand will result in a bust"""
     is_bust = False
     if hand_sum > 21:
         is_bust = True
@@ -68,7 +79,10 @@ def check_bust(hand_sum):
 
     else:
         return is_bust
+
+
 def hit_me(hand_sum1, player):
+    """Deals additional card to the player or dealer, depending on which player is passed as an argument"""
     if player == user:
         again = True
         while again:
@@ -82,12 +96,16 @@ def hit_me(hand_sum1, player):
         print(f"Dealer drew a {card_next}.")
         dealer_cards.append(card_next)
         hand_sum1 = card_math(dealer_cards)
+        # Logic to handle if dealer stays or hits. 16 or under must hit, 17 or over must stay
         if hand_sum1 <= 16:
             hand_sum1 = hit_me(hand_sum1, dealer)
             return hand_sum1
         elif hand_sum1 >= 17:
             return hand_sum1
+
+
 def find_winner(user_hand_sum, dealer_hand_sum):
+    """Takes the hands of each player and compares them to find the winner"""
     print(f"You had: {user_cards}")
     print(f"Dealer had: {dealer_cards}")
     if user_hand_sum > 21:
@@ -100,7 +118,10 @@ def find_winner(user_hand_sum, dealer_hand_sum):
         print(f"The dealer's hand of {dealer_hand_sum} beat your hand of {user_hand_sum}. You lose!")
     elif user_hand_sum == dealer_hand_sum:
         print(f"Your hand and the dealer's hand are tied at {user_hand_sum}! This hand is a draw.")
+
+
 def play_blackjack(user_sum, dealer_sum, should_stop, flag_for_bust):
+    """begins a new blackjack game"""
     print(logo)
     deal_cards()
     user_sum += card_math(user_cards)
@@ -131,6 +152,7 @@ def play_blackjack(user_sum, dealer_sum, should_stop, flag_for_bust):
             find_winner(user_sum, dealer_sum)
     else:
         print(f"Your hand of {user_sum} went over! You lose!")
+
 
 play = True
 while play:
