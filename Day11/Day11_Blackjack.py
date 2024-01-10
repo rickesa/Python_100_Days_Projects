@@ -41,17 +41,11 @@ face_values_dict = {"Ace": ace, "Jack": 10, "Queen": 10, "King": 10}
 
 def deal_cards():
     """Deals 2 cards to both the user and the dealer"""
+    for i in range(2):
+        user_cards.append(random.choice(cards))
+        dealer_cards.append(random.choice(cards))
     print("Dealing cards...")
-    card1 = random.choice(cards)
-    user_cards.append(card1)
-    card2 = random.choice(cards)
-    user_cards.append(card2)
-    card1 = random.choice(cards)
-    print(f"Dealer's first card is {card1}")
-    print(card_art_dict[card1])
-    card2 = random.choice(cards)
-    dealer_cards.append(card1)
-    dealer_cards.append(card2)
+    print(f"Dealer's first card is {dealer_cards[0]}")
     print(f"User's hand: {user_cards}")
 
 
